@@ -1,0 +1,33 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+public class SessionTrackingServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Get the current session or create a new session if it doesn't exist
+        HttpSession session = request.getSession(true);
+
+        // Set session attributes
+        session.setAttribute("username", "JohnDoe");
+        session.setAttribute("isLoggedIn", true);
+
+        // Set the response content type
+        response.setContentType("text/html");
+
+        // Write the response message
+        PrintWriter out = response.getWriter();
+        out.println("<html><body>");
+        out.println("<h1>Welcome to the website!</h1>");
+        out.println("<p>Session ID: " + session.getId() + "</p>");
+        out.println("<p>Username: " + session.getAttribute("username") + "</p>");
+        out.println("<p>Logged in: " + session.getAttribute("isLoggedIn") + "</p>");
+        out.println("</body></html>");
+    }
+}

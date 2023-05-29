@@ -1,0 +1,77 @@
+class Node {
+    int data;
+    Node previous;
+    Node next;
+
+    public Node(int data) {
+        this.data = data;
+        this.previous = null;
+        this.next = null;
+    }
+}
+
+public class DoublyLinkedList {
+    private Node head;
+    private Node tail;
+
+    public DoublyLinkedList() {
+        this.head = null;
+        this.tail = null;
+    }
+
+    public void insert(int data) {
+        Node newNode = new Node(data);
+
+        if (head == null) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail.next = newNode;
+            newNode.previous = tail;
+            tail = newNode;
+        }
+    }
+
+    public void traverseForward() {
+        if (head == null) {
+            System.out.println("Doubly linked list is empty.");
+            return;
+        }
+
+        System.out.println("Traversing Doubly Linked List in Forward Direction:");
+        Node currentNode = head;
+        while (currentNode != null) {
+            System.out.print(currentNode.data + " ");
+            currentNode = currentNode.next;
+        }
+        System.out.println();
+    }
+
+    public void traverseBackward() {
+        if (tail == null) {
+            System.out.println("Doubly linked list is empty.");
+            return;
+        }
+
+        System.out.println("Traversing Doubly Linked List in Backward Direction:");
+        Node currentNode = tail;
+        while (currentNode != null) {
+            System.out.print(currentNode.data + " ");
+            currentNode = currentNode.previous;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        DoublyLinkedList list = new DoublyLinkedList();
+
+        list.insert(10);
+        list.insert(20);
+        list.insert(30);
+        list.insert(40);
+        list.insert(50);
+
+        list.traverseForward();
+        list.traverseBackward();
+    }
+}

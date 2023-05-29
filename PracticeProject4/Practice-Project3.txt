@@ -1,0 +1,46 @@
+public class ExponentialSearch {
+    public static int exponentialSearch(int[] array, int target) {
+        if (array[0] == target) {
+            return 0; // Return 0 if the first element is the target
+        }
+
+        int size = array.length;
+        int bound = 1;
+
+        while (bound < size && array[bound] <= target) {
+            bound *= 2; // Increase the bound exponentially
+        }
+
+        int left = bound / 2;
+        int right = Math.min(bound, size - 1);
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (array[mid] == target) {
+                return mid; // Return the index if the element is found
+            }
+
+            if (array[mid] < target) {
+                left = mid + 1; // Search in the right half
+            } else {
+                right = mid - 1; // Search in the left half
+            }
+        }
+
+        return -1; // Return -1 if the element is not found
+    }
+
+    public static void main(String[] args) {
+        int[] array = {10, 20, 30, 40, 50};
+        int target = 40;
+
+        int position = exponentialSearch(array, target);
+
+        if (position == -1) {
+            System.out.println("Element not found in the array");
+        } else {
+            System.out.println("Element found at position: " + position);
+        }
+    }
+}

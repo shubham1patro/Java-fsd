@@ -1,0 +1,30 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class FourthSmallestElement {
+    public static void main(String[] args) {
+        List<Integer> list = new ArrayList<>();
+        list.add(9);
+        list.add(3);
+        list.add(7);
+        list.add(1);
+        list.add(5);
+        list.add(2);
+
+        int fourthSmallest = findFourthSmallest(list);
+        System.out.println("Fourth smallest element: " + fourthSmallest);
+    }
+
+    public static int findFourthSmallest(List<Integer> list) {
+        if (list.size() < 4) {
+            throw new IllegalArgumentException("List size is less than 4.");
+        }
+
+        // Sort the list in ascending order
+        Collections.sort(list);
+
+        // Return the fourth element
+        return list.get(3);
+    }
+}

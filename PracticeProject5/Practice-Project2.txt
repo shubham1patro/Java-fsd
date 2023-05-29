@@ -1,0 +1,38 @@
+To configure a servlet in Eclipse IDE, you need to follow these steps:
+
+Step 1: Create a Dynamic Web Project
+1. Open Eclipse IDE and select "File" > "New" > "Dynamic Web Project".
+2. Enter a project name and click "Next".
+3. Choose the target runtime (e.g., Apache Tomcat) and click "Next".
+4. Leave the default settings and click "Finish" to create the project.
+
+Step 2: Create a Servlet
+1. Right-click on the project in the "Project Explorer" view and select "New" > "Servlet".
+2. Enter a class name and a package name for your servlet.
+3. Click "Next" and select the URL mapping for your servlet (e.g., "/myservlet").
+4. Click "Next" and leave the default settings for the servlet class.
+5. Click "Finish" to create the servlet class.
+
+Step 3: Configure Servlet Mapping in web.xml
+1. Open the "web.xml" file located in the "WebContent/WEB-INF" directory.
+2. Add the following code inside the `<web-app>` tags:
+
+//xml
+<servlet>
+    <servlet-name>MyServlet</servlet-name>
+    <servlet-class>com.example.MyServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>MyServlet</servlet-name>
+    <url-pattern>/myservlet</url-pattern>
+</servlet-mapping>
+```
+
+Make sure to replace `com.example.MyServlet` with the actual package and class name of your servlet.
+
+Step 4: Run the Servlet
+1. Right-click on the project in the "Project Explorer" view and select "Run As" > "Run on Server".
+2. Choose your target runtime (e.g., Apache Tomcat) and click "Finish".
+3. The servlet will be deployed and started on the configured server.
+4. Open a web browser and access the servlet using the URL specified in the servlet mapping (e.g., "http://localhost:8080/your-project-context/myservlet").
+

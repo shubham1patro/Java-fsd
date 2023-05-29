@@ -1,0 +1,33 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+public class SessionTrackingServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Get the current session or create a new session if it doesn't exist
+        HttpSession session = request.getSession(true);
+
+        // Set the response content type
+        response.setContentType("text/html");
+
+        // Write the response message
+        PrintWriter out = response.getWriter();
+        out.println("<html><body>");
+        out.println("<h1>Welcome to the website!</h1>");
+
+        // Create a hidden form field and set its value to the session ID
+        out.println("<form action='welcome' method='post'>");
+        out.println("<input type='hidden' name='sessionID' value='" + session.getId() + "'>");
+        out.println("<input type='submit' value='Continue'>");
+        out.println("</form>");
+
+        out.println("</body></html>");
+    }
+}

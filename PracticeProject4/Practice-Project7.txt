@@ -1,0 +1,79 @@
+public class MergeSort {
+    public static void mergeSort(int[] array) {
+        int size = array.length;
+
+        if (size < 2) {
+            return; // Base case: If the array has less than 2 elements, it is already sorted
+        }
+
+        int mid = size / 2;
+
+        // Create temporary arrays for the left and right halves
+        int[] leftArray = new int[mid];
+        int[] rightArray = new int[size - mid];
+
+        // Copy elements from the original array to the left and right arrays
+        System.arraycopy(array, 0, leftArray, 0, mid);
+        System.arraycopy(array, mid, rightArray, 0, size - mid);
+
+        // Recursive calls to sort the left and right halves
+        mergeSort(leftArray);
+        mergeSort(rightArray);
+
+        // Merge the sorted left and right halves
+        merge(array, leftArray, rightArray);
+    }
+
+    public static void merge(int[] array, int[] leftArray, int[] rightArray) {
+        int leftSize = leftArray.length;
+        int rightSize = rightArray.length;
+        int i = 0; // Index for leftArray
+        int j = 0; // Index for rightArray
+        int k = 0; // Index for merged array
+
+        // Compare elements from leftArray and rightArray and merge them in ascending order
+        while (i < leftSize && j < rightSize) {
+            if (leftArray[i] <= rightArray[j]) {
+                array[k] = leftArray[i];
+                i++;
+            } else {
+                array[k] = rightArray[j];
+                j++;
+            }
+            k++;
+        }
+
+        // Copy any remaining elements from leftArray
+        while (i < leftSize) {
+            array[k] = leftArray[i];
+            i++;
+            k++;
+        }
+
+        // Copy any remaining elements from rightArray
+        while (j < rightSize) {
+            array[k] = rightArray[j];
+            j++;
+            k++;
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] array = {44, 24, 65, 12, 72, 11, 70};
+
+        System.out.println("Original array: ");
+        printArray(array);
+
+        mergeSort(array);
+
+        System.out.println("Sorted array in ascending order: ");
+        printArray(array);
+    }
+
+    public static void printArray(int[] array) {
+        for (int i = 0; i < array.length; i++) {
+            System.out.print(array[i] + " ");
+        }
+        System.out.println();
+    }
+}

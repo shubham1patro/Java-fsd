@@ -1,0 +1,50 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+public class SessionTrackingServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Get the current session or create a new session if it doesn't exist
+        HttpSession session = request.getSession(true);
+
+        // Check if a cookie named "visited" exists
+        boolean isNewVisitor = true;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("visited")) {
+                    isNewVisitor = false;
+                    break;
+                }
+            }
+        }
+
+        // Set the "visited" cookie if the visitor is new
+        if (isNewVisitor) {
+            Cookie visitedCookie = new Cookie("visited", "true");
+            visitedCookie.setMaxAge(60 * 60 * 24); // Cookie expiration time (in seconds)
+            response.addCookie(visitedCookie);
+        }
+
+        // Set the response content type
+        response.setContentType("text/html");
+
+        // Write the response message
+        PrintWriter out = response.getWriter();
+        out.println("<html><body>");
+        if (isNewVisitor) {
+            out.println("<h1>Welcome, new visitor!</h1>");
+        } else {
+            out.println("<h1>Welcome back!</h1>");
+        }
+        out.println("</body></html>");
+    }
+}

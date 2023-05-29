@@ -1,0 +1,84 @@
+class Node {
+    int data;
+    Node next;
+
+    public Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+public class LinkedList {
+    private Node head;
+
+    public LinkedList() {
+        this.head = null;
+    }
+
+    public void insert(int data) {
+        Node newNode = new Node(data);
+
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node currentNode = head;
+            while (currentNode.next != null) {
+                currentNode = currentNode.next;
+            }
+            currentNode.next = newNode;
+        }
+    }
+
+    public void deleteFirstOccurrence(int key) {
+        if (head == null) {
+            return;
+        }
+
+        if (head.data == key) {
+            head = head.next;
+            return;
+        }
+
+        Node prevNode = null;
+        Node currentNode = head;
+
+        while (currentNode != null && currentNode.data != key) {
+            prevNode = currentNode;
+            currentNode = currentNode.next;
+        }
+
+        if (currentNode == null) {
+            return;
+        }
+
+        prevNode.next = currentNode.next;
+    }
+
+    public void display() {
+        Node currentNode = head;
+        while (currentNode != null) {
+            System.out.print(currentNode.data + " ");
+            currentNode = currentNode.next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        LinkedList list = new LinkedList();
+
+        list.insert(10);
+        list.insert(20);
+        list.insert(30);
+        list.insert(40);
+        list.insert(50);
+
+        System.out.println("Linked List before deletion:");
+        list.display();
+
+        int key = 30;
+        list.deleteFirstOccurrence(key);
+
+        System.out.println("Linked List after deleting first occurrence of " + key + ":");
+        list.display();
+    }
+}

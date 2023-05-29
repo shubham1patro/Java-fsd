@@ -1,0 +1,72 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+public class LoginServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Get the login parameters from the request
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        // Check if the username and password are valid
+        if (isValidLogin(username, password)) {
+            // Create a session for the user
+            HttpSession session = request.getSession(true);
+            session.setAttribute("username", username);
+            session.setAttribute("isLoggedIn", true);
+
+            // Redirect to the welcome page
+            response.sendRedirect("welcome");
+        } else {
+            // Show an error message
+            response.setContentType("text/html");
+            PrintWriter out = response.getWriter();
+            out.println("<html><body>");
+            out.println("<h1>Login Failed</h1>");
+            out.println("<p>Invalid username or password.</p>");
+            out.println("</body></html>");
+        }
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Get the current session
+        HttpSession session = request.getSession(false);
+
+        // Check if the user is already logged in
+        if (session != null && session.getAttribute("isLoggedIn") != null) {
+            // Perform logout
+            session.invalidate();
+
+            // Show the logout message
+            response.setContentType("text/html");
+            PrintWriter out = response.getWriter();
+            out.println("<html><body>");
+            out.println("<h1>Logout Successful</h1>");
+            out.println("<p>You have been logged out.</p>");
+            out.println("</body></html>");
+        } else {
+            // Show an error message
+            response.setContentType("text/html");
+            PrintWriter out = response.getWriter();
+            out.println("<html><body>");
+            out.println("<h1>Logout Failed</h1>");
+            out.println("<p>You are not currently logged in.</p>");
+            out.println("</body></html>");
+        }
+    }
+
+    private boolean isValidLogin(String username, String password) {
+        // Perform login validation logic here
+        // Return true if the username and password are valid, otherwise false
+        // Replace this logic with your actual login validation code
+        return username.equals("admin") && password.equals("password");
+    }
+}

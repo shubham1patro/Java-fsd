@@ -1,0 +1,23 @@
+public class SumInRange {
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        int n = arr.length;
+        int L = 2;  // Starting index of the range
+        int R = 7;  // Ending index of the range
+
+        int sum = calculateSum(arr, n, L, R);
+        System.out.println("Sum of elements in the range [" + L + ", " + R + "]: " + sum);
+    }
+
+    public static int calculateSum(int[] arr, int n, int L, int R) {
+        if (L < 0 || R >= n || L > R) {
+            throw new IllegalArgumentException("Invalid range.");
+        }
+
+        int sum = 0;
+        for (int i = L; i <= R; i++) {
+            sum += arr[i];
+        }
+        return sum;
+    }
+}
