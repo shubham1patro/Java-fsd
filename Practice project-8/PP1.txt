@@ -1,0 +1,45 @@
+To configure JSP with Eclipse and create a simple JSP page, you can follow these steps:
+
+Step 1: Set up Eclipse IDE
+1. Download and install Eclipse IDE from the official website.
+2. Launch Eclipse and create a new Java project.
+
+Step 2: Configure Apache Tomcat server
+1. Download Apache Tomcat server from the official website (make sure to choose the appropriate version compatible with your Eclipse IDE).
+2. Extract the downloaded Tomcat server archive to a desired location on your computer.
+3. In Eclipse, go to the "Servers" view (Window -> Show View -> Servers).
+4. Right-click in the Servers view and select "New" -> "Server".
+5. Select "Apache" -> "Tomcat" as the server type, and click "Next".
+6. Choose the Tomcat installation directory by clicking the "Browse" button and selecting the extracted Tomcat folder.
+7. Click "Finish" to add the Tomcat server to Eclipse.
+
+Step 3: Create a Dynamic Web Project
+1. In Eclipse, right-click on your project in the Project Explorer and select "New" -> "Dynamic Web Project".
+2. Provide a project name and click "Next".
+3. Select the target runtime as the Apache Tomcat server you configured in the previous step.
+4. Keep the default settings for the configuration and click "Finish".
+
+Step 4: Create a JSP page
+1. Inside the WebContent directory of your project, create a new file with a .jsp extension (e.g., "index.jsp").
+2. Open the JSP file and write your desired HTML and JSP code. For example:
+
+```jsp
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple JSP Page</title>
+</head>
+<body>
+    <h1>Welcome to My JSP Page</h1>
+    <p>Current date and time: <%= new java.util.Date() %></p>
+</body>
+</html>
+```
+
+Step 5: Run the project on the Tomcat server
+1. In Eclipse, right-click on your project and select "Run As" -> "Run on Server".
+2. Choose the configured Tomcat server and click "Finish".
+3. Eclipse will start the Tomcat server and deploy your web application.
+4. The JSP page will be accessible at the URL provided by the Tomcat server (usually http://localhost:8080/your-project-name/index.jsp).
+
+That's it! You have configured JSP with Eclipse and created a simple JSP page. You can now continue developing your web application using JSP and deploy it on the Tomcat server for testing and execution.

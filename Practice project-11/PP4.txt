@@ -1,0 +1,36 @@
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@DisplayName("Outer Test Class")
+public class NestedAndRepeatedTestsDemo {
+
+    @Test
+    @DisplayName("Outer Test")
+    void outerTest() {
+        System.out.println("Executing outer test");
+        assertEquals(2, 1 + 1);
+    }
+
+    @Nested
+    @DisplayName("Nested Test Class")
+    class NestedTestClass {
+
+        @Test
+        @DisplayName("Nested Test")
+        void nestedTest() {
+            System.out.println("Executing nested test");
+            assertEquals(4, 2 * 2);
+        }
+
+        @RepeatedTest(3)
+        @DisplayName("Repeated Test")
+        void repeatedTest() {
+            System.out.println("Executing repeated test");
+            assertEquals(10, 5 + 5);
+        }
+    }
+}

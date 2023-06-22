@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSP Action Tags Demo</title>
+</head>
+<body>
+    <h1>JSP Action Tags Demo</h1>
+    
+    <%-- Include action --%>
+    <jsp:include page="header.jsp" />
+    
+    <%-- Forward action --%>
+    <%-- The following line will forward the request to another JSP page --%>
+    <%-- <jsp:forward page="anotherPage.jsp" /> --%>
+    
+    <%-- UseBean action --%>
+    <jsp:useBean id="person" class="com.example.Person" scope="session" />
+    
+    <%-- SetProperty action --%>
+    <jsp:setProperty name="person" property="name" value="John Doe" />
+    
+    <%-- GetProperty action --%>
+    <p>Name: <jsp:getProperty name="person" property="name" /></p>
+    
+    <%-- Include action with param --%>
+    <jsp:include page="footer.jsp">
+        <jsp:param name="year" value="2023" />
+    </jsp:include>
+    
+    <%-- Use of custom tag using Taglib --%>
+    <mytags:customTag />
+    
+</body>
+</html>

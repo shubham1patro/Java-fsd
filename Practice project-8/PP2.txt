@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSP Implicit Objects Demo</title>
+</head>
+<body>
+    <h1>JSP Implicit Objects Demo</h1>
+    
+    <%-- Implicit object: request --%>
+    <h2>Request Implicit Object:</h2>
+    <p>Server name: <%= request.getServerName() %></p>
+    <p>Server port: <%= request.getServerPort() %></p>
+    <p>Context path: <%= request.getContextPath() %></p>
+    <p>Request URI: <%= request.getRequestURI() %></p>
+    <p>Request URL: <%= request.getRequestURL() %></p>
+    
+    <%-- Implicit object: response --%>
+    <h2>Response Implicit Object:</h2>
+    <p>Character encoding: <%= response.getCharacterEncoding() %></p>
+    <p>Content type: <%= response.getContentType() %></p>
+    
+    <%-- Implicit object: session --%>
+    <h2>Session Implicit Object:</h2>
+    <% if (session.isNew()) { %>
+        <p>New session created.</p>
+    <% } else { %>
+        <p>Session ID: <%= session.getId() %></p>
+        <p>Session creation time: <%= session.getCreationTime() %></p>
+        <p>Last accessed time: <%= session.getLastAccessedTime() %></p>
+    <% } %>
+    
+    <%-- Implicit object: application --%>
+    <h2>Application Implicit Object:</h2>
+    <p>Server info: <%= application.getServerInfo() %></p>
+    <p>Servlet context name: <%= application.getServletContextName() %></p>
+    
+    <%-- Implicit object: page --%>
+    <h2>Page Implicit Object:</h2>
+    <p>Page URL: <%= pageContext.getOut().flush() %></p>
+    
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Session Handling in JSP</title>
+</head>
+<body>
+    <h1>Session Handling in JSP</h1>
+    
+    <%-- Creating or retrieving the session object --%>
+    <% HttpSession session = request.getSession(true); %>
+    
+    <%-- Checking if a new session is created --%>
+    <% if (session.isNew()) { %>
+        <p>New session created</p>
+    <% } else { %>
+        <p>Session already exists</p>
+    <% } %>
+    
+    <%-- Setting and getting session attributes --%>
+    <% session.setAttribute("username", "JohnDoe"); %>
+    <% String username = (String) session.getAttribute("username"); %>
+    
+    <p>Username: <%= username %></p>
+    
+    <%-- Invalidating the session --%>
+    <% session.invalidate(); %>
+    
+    <%-- Checking if the session is invalidated --%>
+    <% if (session.isNew()) { %>
+        <p>Session is active</p>
+    <% } else { %>
+        <p>Session is invalidated</p>
+    <% } %>
+</body>
+</html>

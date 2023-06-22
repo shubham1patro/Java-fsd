@@ -1,0 +1,61 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database connection settings -->
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/mydatabase</property>
+        <property name="hibernate.connection.username">username</property>
+        <property name="hibernate.connection.password">password</property>
+
+        <!-- Other Hibernate configurations -->
+
+        <!-- Mapping files -->
+        <mapping resource="com/example/Entity.hbm.xml"/>
+    </session-factory>
+</hibernate-configuration>
+
+
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.example.Entity" table="entity">
+        <id name="id" type="int">
+            <column name="id"/>
+            <generator class="increment"/>
+        </id>
+        <property name="name" type="string">
+            <column name="name"/>
+        </property>
+
+        <!-- Mapping for List collection -->
+        <list name="listOfValues" table="list_values" cascade="all">
+            <key column="entity_id"/>
+            <list-index column="idx"/>
+            <element column="value" type="string"/>
+        </list>
+
+        <!-- Mapping for Set collection -->
+        <set name="setOfValues" table="set_values" cascade="all">
+            <key column="entity_id"/>
+            <element column="value" type="string"/>
+        </set>
+
+        <!-- Mapping for Bag collection -->
+        <bag name="bagOfValues" table="bag_values" cascade="all">
+            <key column="entity_id"/>
+            <element column="value" type="string"/>
+        </bag>
+
+        <!-- Mapping for Map collection -->
+        <map name="mapOfValues" table="map_values" cascade="all">
+            <key column="entity_id"/>
+            <map-key column="key" type="string"/>
+            <element column="value" type="string"/>
+        </map>
+
+    </class>
+</hibernate-mapping>

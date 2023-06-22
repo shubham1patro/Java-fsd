@@ -1,0 +1,77 @@
+package com.example;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.FetchType;
+import java.util.List;
+
+@Entity
+public class ParentEntity {
+    @Id
+    private int id;
+
+    // Lazy-loaded collection
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    private List<ChildEntity> children;
+
+    // Getters and setters
+}
+
+@Entity
+public class ChildEntity {
+    @Id
+    private int id;
+
+    // Many-to-one relationship with ParentEntity
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ParentEntity parent;
+
+    // Getters and setters
+}
+
+
+
+package com.example;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a Hibernate session factory
+        Configuration configuration = new Configuration().configure();
+        SessionFactory sessionFactory = configuration.buildSessionFactory();
+
+        // Open a session
+        Session session = sessionFactory.openSession();
+
+        try {
+            // Begin a transaction
+            Transaction transaction = session.beginTransaction();
+
+            // Fetch a ParentEntity
+            ParentEntity parent = session.get(ParentEntity.class, 1);
+
+            // Access the lazy-loaded collection
+            // This will trigger a database query to fetch the associated ChildEntity objects
+            List<ChildEntity> children = parent.getChildren();
+
+            // Perform operations with the children collection
+            for (ChildEntity child : children) {
+                System.out.println(child.getId());
+            }
+
+            // Commit the transaction
+            transaction.commit();
+        } catch (Exception e) {
+            // Handle exceptions
+        } finally {
+            // Close the session and session factory
+            session.close();
+            sessionFactory.close();
+        }
+    }
+}

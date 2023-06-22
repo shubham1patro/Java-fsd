@@ -1,0 +1,52 @@
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+    </dependency>
+    <!-- Add other dependencies as needed -->
+</dependencies>
+
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    // Add other dependencies as needed
+}
+
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Post {
+    private int id;
+    private String title;
+    private String body;
+
+    // Getters and setters
+}
+
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
+public class RestClient {
+    private static final String API_URL = "https://api.example.com/posts";
+
+    public static void main(String[] args) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<Post[]> response = restTemplate.getForEntity(API_URL, Post[].class);
+        Post[] posts = response.getBody();
+
+        for (Post post : posts) {
+            System.out.println("ID: " + post.getId());
+            System.out.println("Title: " + post.getTitle());
+            System.out.println("Body: " + post.getBody());
+            System.out.println("----------------------");
+        }
+    }
+}

@@ -1,0 +1,46 @@
+public interface MessageService {
+    String getMessage();
+}
+
+
+public class EmailService implements MessageService {
+    @Override
+    public String getMessage() {
+        return "Email message";
+    }
+}
+
+
+public class SMSService implements MessageService {
+    @Override
+    public String getMessage() {
+        return "SMS message";
+    }
+}
+
+
+public class NotificationService {
+    private final MessageService messageService;
+
+    public NotificationService(MessageService messageService) {
+        this.messageService = messageService;
+    }
+
+    public void sendNotification() {
+        String message = messageService.getMessage();
+        System.out.println("Sending notification: " + message);
+    }
+}
+
+
+public class Main {
+    public static void main(String[] args) {
+        MessageService emailService = new EmailService();
+        NotificationService notificationService1 = new NotificationService(emailService);
+        notificationService1.sendNotification();
+
+        MessageService smsService = new SMSService();
+        NotificationService notificationService2 = new NotificationService(smsService);
+        notificationService2.sendNotification();
+    }
+}

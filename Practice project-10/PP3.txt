@@ -1,0 +1,46 @@
+@RestController
+public class FileController {
+
+    private static final String UPLOAD_DIR = "uploads/";
+
+    @PostMapping("/upload")
+    public String uploadFile(@RequestParam("file") MultipartFile file) {
+        try {
+            // Get the file name
+            String fileName = file.getOriginalFilename();
+            
+            // Create the upload directory if it doesn't exist
+            File directory = new File(UPLOAD_DIR);
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+            
+            // Save the file to the upload directory
+            file.transferTo(new File(UPLOAD_DIR + fileName));
+
+            return "File uploaded successfully!";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "File upload failed!";
+        }
+    }
+
+    @GetMapping("/download/{fileName:.+}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
+        // Load file as Resource
+        Resource resource = new FileSystemResource(UPLOAD_DIR + fileName);
+
+        // Check if file exists
+        if (resource.exists()) {
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+}
+
+
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB

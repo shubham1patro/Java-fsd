@@ -1,0 +1,22 @@
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
+
+public class ConditionalTestExecutionDemo {
+
+    @Test
+    @EnabledIfSystemProperty(named = "environment", matches = "dev")
+    public void testInDevEnvironment() {
+        // Test code specific to the development environment
+        System.out.println("Running test in development environment");
+    }
+
+    @Test
+    @EnabledIfSystemProperty(named = "environment", matches = "prod")
+    public void testInProdEnvironment() {
+        // Test code specific to the production environment
+        System.out.println("Running test in production environment");
+    }
+}
+
+
+java -jar junit-platform-console-standalone-<version>.jar --tests com.example.ConditionalTestExecutionDemo --scan-classpath --include-engine=junit-jupiter --include-tag=dev

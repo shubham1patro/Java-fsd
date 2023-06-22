@@ -1,0 +1,25 @@
+import org.apache.log4j.PropertyConfigurator;
+
+public class HibernateConfig {
+    // ...
+
+    public static void configureLogging() {
+        String log4jConfigFile = "path/to/log4j.properties"; // Provide the correct path to your log4j.properties file
+        PropertyConfigurator.configure(log4jConfigFile);
+    }
+    
+    // ...
+}
+
+
+
+public class Main {
+    public static void main(String[] args) {
+        HibernateConfig.configureLogging();
+        EntityManagerFactory entityManagerFactory = HibernateConfig.getEntityManagerFactory();
+        
+        // Perform database operations using the EntityManager
+        
+        entityManagerFactory.close();
+    }
+}

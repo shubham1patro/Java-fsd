@@ -1,0 +1,33 @@
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-webflux</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+</dependencies>
+
+
+server.port=8443
+server.ssl.key-store=classpath:keystore.p12
+server.ssl.key-store-password=your_keystore_password
+server.ssl.key-store-type=PKCS12
+server.ssl.key-alias=mycertificate
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTTPS Test</title>
+</head>
+<body>
+    <h1>Welcome to HTTPS!</h1>
+    <p>This page is served over HTTPS.</p>
+</body>
+</html>

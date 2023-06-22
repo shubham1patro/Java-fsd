@@ -1,0 +1,50 @@
+import java.awt.*;
+import java.awt.event.*;
+
+public class EventHandlingDemo extends Frame {
+
+    private TextField textField;
+    private Button button;
+
+    public EventHandlingDemo() {
+        // Set up the frame
+        setTitle("Event Handling Demo");
+        setSize(300, 200);
+        setLayout(new FlowLayout());
+
+        // Create components
+        textField = new TextField(20);
+        button = new Button("Click Me");
+
+        // Add components to the frame
+        add(textField);
+        add(button);
+
+        // Register default event handlers
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                textField.setText("Button Clicked!");
+            }
+        });
+
+        // Register custom event handler
+        MyCustomEventHandler customEventHandler = new MyCustomEventHandler();
+        button.addMouseListener(customEventHandler);
+
+        // Show the frame
+        setVisible(true);
+    }
+
+    // Custom event handler class
+    class MyCustomEventHandler extends MouseAdapter {
+        public void mouseClicked(MouseEvent e) {
+            if (e.getClickCount() == 2) {
+                textField.setText("Double Click!");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        new EventHandlingDemo();
+    }
+}

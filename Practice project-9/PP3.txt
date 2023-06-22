@@ -1,0 +1,113 @@
+<dependencies>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-jdbc</artifactId>
+        <version>5.3.9</version>
+    </dependency>
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>8.0.26</version>
+    </dependency>
+</dependencies>
+
+
+
+public class Employee {
+    private int id;
+    private String name;
+
+    // Getters and setters
+    // ...
+}
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/jdbc
+    http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+    <!-- Configure the data source -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/your_database_name" />
+        <property name="username" value="your_username" />
+        <property name="password" value="your_password" />
+    </bean>
+
+    <!-- Configure the JDBC template -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!-- Define a bean for the Employee DAO -->
+    <bean id="employeeDao" class="com.example.EmployeeDao">
+        <property name="jdbcTemplate" ref="jdbcTemplate" />
+    </bean>
+
+    <!-- Enable Spring's annotation-based configuration -->
+    <context:annotation-config />
+</beans>
+
+
+
+import org.springframework.jdbc.core.JdbcTemplate;
+
+public class EmployeeDao {
+    private JdbcTemplate jdbcTemplate;
+
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public void insertEmployee(Employee employee) {
+        String sql = "INSERT INTO employees (id, name) VALUES (?, ?)";
+        jdbcTemplate.update(sql, employee.getId(), employee.getName());
+    }
+
+    public void updateEmployee(Employee employee) {
+        String sql = "UPDATE employees SET name = ? WHERE id = ?";
+        jdbcTemplate.update(sql, employee.getName(), employee.getId());
+    }
+
+    public void deleteEmployee(int id) {
+        String sql = "DELETE FROM employees WHERE id = ?";
+        jdbcTemplate.update(sql, id);
+    }
+}
+
+
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class JdbcSpringIntegrationDemo {
+    public static void main(String[] args) {
+        // Load the Spring configuration
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+        // Get the Employee DAO bean
+        EmployeeDao employeeDao = context.getBean("employeeDao", EmployeeDao.class);
+
+        // Create a new employee
+        Employee employee = new Employee();
+        employee.setId(1);
+        employee.setName("John Doe");
+
+        // Insert the employee
+        employeeDao.insertEmployee(employee);
+
+        // Update the employee
+        employee.setName("Jane Smith");
+        employeeDao.updateEmployee(employee);
+
+        // Delete the employee
+        employeeDao.deleteEmployee(1);
+    }
+}

@@ -1,0 +1,11 @@
+public class AssertionDemo {
+
+    public static void main(String[] args) {
+        int num = 10;
+        
+        // Using assert statement to check a condition
+        assert num >= 0 : "Invalid number";
+
+        System.out.println("Number: " + num);
+    }
+}

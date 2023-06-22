@@ -1,0 +1,85 @@
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+public class HibernateConfig {
+    private static final String PERSISTENCE_UNIT_NAME = "YourPersistenceUnitName";
+    private static EntityManagerFactory entityManagerFactory;
+
+    public static EntityManagerFactory getEntityManagerFactory() {
+        if (entityManagerFactory == null) {
+            try {
+                entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return entityManagerFactory;
+    }
+
+    public static void closeEntityManagerFactory() {
+        if (entityManagerFactory != null) {
+            entityManagerFactory.close();
+        }
+    }
+}
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+
+    <persistence-unit name="YourPersistenceUnitName" transaction-type="RESOURCE_LOCAL">
+        <properties>
+            <!-- Configure your database connection properties -->
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/your_database"/>
+            <property name="javax.persistence.jdbc.user" value="your_username"/>
+            <property name="javax.persistence.jdbc.password" value="your_password"/>
+
+            <!-- Configure Hibernate dialect for your database -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            <!-- Set the auto-creation and auto-update of database schema -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
+    </persistence-unit>
+</persistence>
+
+
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "employees")
+public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String firstName;
+    private String lastName;
+    // ... other properties, getters, and setters
+}
+
+
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        EntityManagerFactory entityManagerFactory = HibernateConfig.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        // Perform database operations using the EntityManager
+
+        entityManager.close();
+        HibernateConfig.closeEntityManagerFactory();
+    }
+}

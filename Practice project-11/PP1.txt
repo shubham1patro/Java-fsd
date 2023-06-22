@@ -1,0 +1,57 @@
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+public class StandardTests {
+
+    @Test
+    public void testAddition() {
+        int result = Calculator.add(5, 10);
+        Assertions.assertEquals(15, result);
+    }
+
+    @Test
+    public void testSubtraction() {
+        int result = Calculator.subtract(10, 5);
+        Assertions.assertEquals(5, result);
+    }
+
+    @Test
+    public void testMultiplication() {
+        int result = Calculator.multiply(5, 10);
+        Assertions.assertEquals(50, result);
+    }
+
+    @Test
+    public void testDivision() {
+        double result = Calculator.divide(10, 2);
+        Assertions.assertEquals(5.0, result);
+    }
+
+    @Test
+    public void testDivisionByZero() {
+        Assertions.assertThrows(ArithmeticException.class, () -> {
+            Calculator.divide(10, 0);
+        });
+    }
+
+    static class Calculator {
+        public static int add(int a, int b) {
+            return a + b;
+        }
+
+        public static int subtract(int a, int b) {
+            return a - b;
+        }
+
+        public static int multiply(int a, int b) {
+            return a * b;
+        }
+
+        public static double divide(int a, int b) {
+            if (b == 0) {
+                throw new ArithmeticException("Division by zero");
+            }
+            return (double) a / b;
+        }
+    }
+}

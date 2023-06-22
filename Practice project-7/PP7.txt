@@ -1,0 +1,80 @@
+package com.example;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.OneToOne;
+
+@Entity
+public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    private String name;
+
+    // Component mapping
+    @OneToOne
+    private Address address;
+
+    // Getters and setters
+}
+
+public class Address {
+    private String street;
+    private String city;
+    private String state;
+    private String zipCode;
+
+    // Getters and setters
+}
+
+
+
+package com.example;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a Hibernate session factory
+        Configuration configuration = new Configuration().configure();
+        SessionFactory sessionFactory = configuration.buildSessionFactory();
+
+        // Open a session
+        Session session = sessionFactory.openSession();
+
+        try {
+            // Begin a transaction
+            Transaction transaction = session.beginTransaction();
+
+            // Create an Address object
+            Address address = new Address();
+            address.setStreet("123 Main St");
+            address.setCity("New York");
+            address.setState("NY");
+            address.setZipCode("10001");
+
+            // Create an Employee object
+            Employee employee = new Employee();
+            employee.setName("John Doe");
+            employee.setAddress(address);
+
+            // Save the Employee object
+            session.save(employee);
+
+            // Commit the transaction
+            transaction.commit();
+        } catch (Exception e) {
+            // Handle exceptions
+        } finally {
+            // Close the session and session factory
+            session.close();
+            sessionFactory.close();
+        }
+    }
+}

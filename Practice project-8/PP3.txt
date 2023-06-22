@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSP Directives Demo</title>
+</head>
+<body>
+    <h1>JSP Directives Demo</h1>
+    
+    <%-- Page directive --%>
+    <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    
+    <%-- Include directive --%>
+    <%@ include file="header.jsp" %>
+    
+    <%-- Taglib directive --%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    
+    <%-- Scriptlet --%>
+    <% String message = "Hello, JSP!"; %>
+    
+    <%-- Expression --%>
+    <p>Message: <%= message %></p>
+    
+    <%-- Declaration --%>
+    <%!
+        private String getGreeting() {
+            return "Welcome to JSP Directives Demo!";
+        }
+    %>
+    
+    <%-- Use of the custom method defined in the declaration --%>
+    <p>Greeting: <%= getGreeting() %></p>
+    
+    <%-- Forward directive --%>
+    <%-- The following line will forward the request to another JSP page --%>
+    <%-- <jsp:forward page="anotherPage.jsp" /> --%>
+    
+    <%-- Comment --%>
+    <%-- This is a JSP comment --%>
+    
+    <%-- Expression tag --%>
+    <c:out value="${message}" />
+    
+    <%-- Declaration tag --%>
+    <c:set var="name" value="John" />
+    
+    <%-- Scriptlet tag --%>
+    <c:if test="${name eq 'John'}">
+        <p>Welcome, ${name}!</p>
+    </c:if>
+    
+</body>
+</html>
